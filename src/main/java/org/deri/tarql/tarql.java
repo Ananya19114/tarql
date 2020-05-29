@@ -1,5 +1,6 @@
 package org.deri.tarql;
 
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.JarURLConnection;
 import java.net.URL;
@@ -19,6 +20,8 @@ import org.apache.jena.util.iterator.ExtendedIterator;
 import org.apache.jena.util.iterator.NullIterator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+
+import com.opencsv.CSVReader;
 
 import jena.cmd.ArgDecl;
 import jena.cmd.CmdGeneral;
@@ -223,6 +226,28 @@ public class tarql extends CmdGeneral {
 	@Override
 	protected void exec() {
 		initLogging();
+		if(head){
+				try { 
+
+					FileReader reader = new FileReader(getPositionalArg(0)); 
+					CSVReader csvRead = new CSVReader(reader); 
+					String[] record; 
+					int k = 0;
+					while ((record = csvRead.readNext()) != null && k!=5) { 
+						for (String cell : record) { 
+							System.out.print(cell + "\t"); 
+						} 
+						System.out.println(); 
+						k++;
+					} 
+				} 
+				catch (Exception e) { 
+					e.printStackTrace(); 
+				} 
+			
+			
+			}
+		else{
 		try {
 			TarqlQuery q = baseIRI == null
 					? new TarqlParser(queryFile).getResult()
@@ -264,7 +289,7 @@ public class tarql extends CmdGeneral {
 			error(null, ex);
 		}
 	}
-
+	}
 	private void error(String message, Throwable cause) {
 		Logger.getLogger("org.deri.tarql").info(message == null ? "Error" : message, cause);
 		if (message == null) {
