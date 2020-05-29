@@ -226,6 +226,7 @@ public class tarql extends CmdGeneral {
 	@Override
 	protected void exec() {
 		initLogging();
+		//Update
 		if(head){
 				try { 
 
