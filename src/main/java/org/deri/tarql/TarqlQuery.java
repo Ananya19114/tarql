@@ -71,5 +71,11 @@ public class TarqlQuery {
 			q.setLimit(5);
 		}
 	}
+	//for head option
+	public void showHead() {
+		for (Query q: queries) {
+			q.setLimit(5);
+		}
+	}
 
 }
