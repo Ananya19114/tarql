@@ -227,7 +227,7 @@ public class tarql extends CmdGeneral {
 	protected void exec() {
 		initLogging();
 		//Update
-		if(head){
+		if (head && getPositionalArg(0).toLowerCase().endsWith(".csv")) {
 				try { 
 
 					FileReader reader = new FileReader(getPositionalArg(0)); 
@@ -256,11 +256,11 @@ public class tarql extends CmdGeneral {
 			if (testQuery) {
 				q.makeTest();
 			}
-			/*Updated Code --In case sparql file is given
+			//Updated Code --In case sparql file is given
 			if(head){
 				q.showHead();
 			}
-			*/
+			
 			if (stdin) {
 				processResults(TarqlQueryExecutionFactory.create(q, 
 						InputStreamSource.fromStdin(), options));
