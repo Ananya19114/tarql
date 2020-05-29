@@ -54,7 +54,31 @@ public class tarql extends CmdGeneral {
 	}
 	
 	public static void main(String... args) {
-		new tarql(args).mainRun();
+		//new tarql(args).mainRun();
+		CSVOptions options;
+		options = new CSVOptions();
+		options.setColumnNamesInFirstRow(false);
+		
+		String csv = "Alice,Galway\nBob,Galway\nCharlie,Dublin";
+		String query = "PREFIX ex: <http://example.com/> CONSTRUCT { ?p a ex:Person; ex:label ?Person."
+				+ "?p ex:location [ a ex:Location; ex:label ?City ]} {}";
+		
+//		String query = "PREFIX ex: <http://example.com/> CONSTRUCT {?p a ex:Person; ex:label ?Person."  
+//				+ "?p ex:location [ a ex:Location; ex:label ?City ]}" + 
+//		"WHERE {" + 
+//		"  BIND (uri(concat(tarql:expandPrefix('myprefix'),'city',md5(concat(str(?x),str(?y),str(?z))))) AS ?u)" + 
+//		"}";
+		
+		TarqlQuery tq =  new TarqlParser(new StringReader(query), null).getResult();
+		TarqlQueryExecution ex = TarqlQueryExecutionFactory.create(tq, InputStreamSource.fromBytes(csv.getBytes("utf-8")), options);
+		Model actual = ModelFactory.createDefaultModel();
+		ex.exec(actual);
+		
+		StmtIterator it =  actual.listStatements();
+		while (it.hasNext()) {
+		     Statement stmt = it.next();
+		     System.out.println(stmt);
+		}
 	}
 
 	private final ArgDecl stdinArg = new ArgDecl(false, "stdin");
