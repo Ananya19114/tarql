@@ -256,6 +256,11 @@ public class tarql extends CmdGeneral {
 			if (testQuery) {
 				q.makeTest();
 			}
+			/*Updated Code --In case sparql file is given
+			if(head){
+				q.showHead();
+			}
+			*/
 			if (stdin) {
 				processResults(TarqlQueryExecutionFactory.create(q, 
 						InputStreamSource.fromStdin(), options));
