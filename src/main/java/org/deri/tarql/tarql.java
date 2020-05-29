@@ -71,6 +71,10 @@ public class tarql extends CmdGeneral {
 	private final ArgDecl writeBaseArg = new ArgDecl(false, "write-base");
 	private final ArgDecl dedupArg = new ArgDecl(true, "dedup");
 	
+	//Updation	
+	private final ArgDecl showHeader = new ArgDecl(false, "head");
+	private boolean head = false;
+	
 	private String queryFile;
 	private List<String> csvFiles = new ArrayList<String>();
 	private boolean stdin = false;
@@ -92,6 +96,9 @@ public class tarql extends CmdGeneral {
 		add(nTriplesArg,      "--ntriples", "Write N-Triples instead of Turtle");
 		add(dedupArg, "--dedup", "Window size in which to remove duplicate triples");
 
+		//Updation
+		add(showHeader,     "--head", "Show CSV header");
+		
 		getUsage().startCategory("Input options");
 		add(stdinArg,         "--stdin", "Read input from STDIN instead of file");
 		add(delimiterArg,     "-d   --delimiter", "Delimiting character of the input file");
@@ -139,6 +146,10 @@ public class tarql extends CmdGeneral {
 		}
 		if (hasArg(testQueryArg)) {
 			testQuery = true;
+		}
+		//Updation
+		if (hasArg(showHeader)) {
+			head = true;
 		}
 		if (hasArg(encodingArg)) {
 			options.setEncoding(getValue(encodingArg));
